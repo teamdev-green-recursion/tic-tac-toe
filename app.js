@@ -1,5 +1,18 @@
 let board = ['', '', '', '', '', '', '', '', ''];
 let player = 'X';
+// 勝利パターン
+let winningPattern = [
+  [0, 1, 2],
+  [0, 3, 6],
+  [2, 5, 8],
+  [6, 7, 8],
+  [3, 4, 5],
+  [1, 4, 7],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+let hashmap = {};
+let count = 0;
 
 const btns = document.querySelectorAll('.square-btn');
 const turn = document.querySelector('#turn');
@@ -15,7 +28,8 @@ function handleButtonClick(button, index) {
     // プレイヤーのターン表示切り替え
     turn.textContent = `${player}'s turn`;
 
-    // 勝利判定
+    // 勝利/引き分け判定
+    drawCheck();
     winCheck();
   }
 }
@@ -39,17 +53,6 @@ btns.forEach((button, index) => {
 
 restart_btn.addEventListener('click', handleRestart);
 
-// 勝利判定
-let winningPattern = [
-  [0, 1, 2],
-  [0, 3, 6],
-  [2, 5, 8],
-  [6, 7, 8],
-  [3, 4, 5],
-  [1, 4, 7],
-  [0, 4, 8],
-  [2, 4, 6],
-];
 
 function winCheck(){
   for (let i of winningPattern){
@@ -65,5 +68,22 @@ function winCheck(){
       }
     }
   }
+};
 
-}
+function drawCheck(){
+  count = 0;
+  for (let i of winningPattern){
+    hashmap = {"X":0, "O":0};
+    for (let j=0; j<3; j++) {
+      if (btns[i[j]].innerText == "X") hashmap["X"] += 1;
+      if (btns[i[j]].innerText == "O") hashmap["O"] += 1;
+    }
+
+    if (hashmap["X"] > 0 && hashmap["O"] > 0){
+      count += 1;
+      if (count == 8){
+        return true;
+      }
+    }
+  }
+};
