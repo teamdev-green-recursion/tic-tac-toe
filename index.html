@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" rel="stylesheet" />
 
     <title>Tic Tac Toe</title>
-</head>
-<body>
-    <div class = "bg-dark vh-100 d-flex flex-column align-items-center py-5">
+  </head>
+  <body>
+    <div class="bg-dark vh-100 d-flex flex-column align-items-center py-5">
+      <h1 class="text-center title fw-bold mb-3">Tic Tac Toe</h1>
 
-        <h1 class = "text-center title fw-bold mb-3">Tic Tac Toe</h1>
+      <h3 id="turn" class="text-center title fw-bold my-2">X's turn</h3>
 
-        <h3 id = "turn" class = "text-center title fw-bold my-2">X's turn</h3>
+      <div id="buttons" class="col-5 d-flex flex-wrap justify-content-center align-content-around my-4">
+        <button class="square-btn"></button>
+        <button class="square-btn"></button>
+        <button class="square-btn"></button>
+        <button class="square-btn"></button>
+        <button class="square-btn"></button>
+        <button class="square-btn"></button>
+        <button class="square-btn"></button>
+        <button class="square-btn"></button>
+        <button class="square-btn"></button>
+      </div>
 
-        <div id = "buttons" class = "col-5 d-flex flex-wrap justify-content-center align-content-around my-4">
-            <button class = "square-btn"></button>
-            <button class = "square-btn"></button>
-            <button class = "square-btn"></button>
-            <button class = "square-btn"></button>
-            <button class = "square-btn"></button>
-            <button class = "square-btn"></button>
-            <button class = "square-btn"></button>
-            <button class = "square-btn"></button>
-            <button class = "square-btn"></button>
-        </div>
-
-        <div class = "d-flex justify-content-center">
-            <button id = "restart" class = "btn btn-success btn-lg text-light">Restart</button>
-        </div>
+      <div class="d-flex justify-content-center">
+        <button id="restart" class="btn btn-success btn-lg text-light">Restart</button>
+      </div>
     </div>
-    
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
