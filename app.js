@@ -65,7 +65,7 @@ function winCheck(){
 
     if (ele1 != "" && ele2 != "" && ele3 != ""){
       if (ele1 == ele2 && ele2 == ele3){
-        return ele1;
+        turn.textContent = `${ele1} win!`;
       }
     }
   }
@@ -83,7 +83,7 @@ function drawCheck(){
     if (hashmap["X"] > 0 && hashmap["O"] > 0){
       count += 1;
       if (count == 8){
-        return true;
+        turn.textContent = `Draw!`;
       }
     }
   }
