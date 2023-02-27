@@ -26,6 +26,7 @@ function handleRestart() {
 
   board = ['', '', '', '', '', '', '', '', ''];
   player = 'X';
+  turn.textContent = `${player}'s turn`;
 }
 
 btns.forEach((button, index) => {
