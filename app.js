@@ -14,6 +14,9 @@ function handleButtonClick(button, index) {
 
     // プレイヤーのターン表示切り替え
     turn.textContent = `${player}'s turn`;
+
+    // 勝利判定
+    winCheck();
   }
 }
 
@@ -35,3 +38,32 @@ btns.forEach((button, index) => {
 });
 
 restart_btn.addEventListener('click', handleRestart);
+
+// 勝利判定
+let winningPattern = [
+  [0, 1, 2],
+  [0, 3, 6],
+  [2, 5, 8],
+  [6, 7, 8],
+  [3, 4, 5],
+  [1, 4, 7],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+
+function winCheck(){
+  for (let i of winningPattern){
+    let [ele1, ele2, ele3] = [
+      btns[i[0]].innerText,
+      btns[i[1]].innerText,
+      btns[i[2]].innerText,
+    ];
+
+    if (ele1 != "" && ele2 != "" && ele3 != ""){
+      if (ele1 == ele2 && ele2 == ele3){
+        return ele1;
+      }
+    }
+  }
+
+}
