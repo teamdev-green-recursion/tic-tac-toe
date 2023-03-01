@@ -17,6 +17,8 @@ let count = 0;
 const btns = document.querySelectorAll('.square-btn');
 const turn = document.querySelector('#turn');
 const restart_btn = document.getElementById('restart');
+const main = document.getElementById("main");
+const result = document.getElementById('result');
 
 
 /*
@@ -52,6 +54,7 @@ function handleRestart() {
   board = ['', '', '', '', '', '', '', '', ''];
   player = 'X';
   turn.textContent = `${player}'s turn`;
+  hideResult();
 }
 
 function disableButtons() {
@@ -71,7 +74,9 @@ function winCheck(){
 
     if (ele1 != "" && ele2 != "" && ele3 != ""){
       if (ele1 == ele2 && ele2 == ele3){
-        turn.textContent = `${ele1} win!`;
+        message = `${ele1} win!`;
+        turn.textContent = message;
+        insertPage(message);
         disableButtons();
       }
     }
@@ -90,18 +95,42 @@ function drawCheck(){
     if (hashmap["X"] > 0 && hashmap["O"] > 0){
       count += 1;
       if (count == 8){
-        turn.textContent = `Draw!`;
+        message = 'Draw!';
+        turn.textContent = message;
+        insertPage(message);
       }
     }
   }
 };
+
+function insertPage(message) {
+  result.innerHTML = 
+  `
+    <h1 class = "title text-center fw-bold mb-4">${message}</h1>
+    <div class="d-flex justify-content-center">
+        <button id="restart" class="btn btn-success btn-lg text-light" onclick = "handleRestart()">Restart</button>
+    </div>
+  `;
+
+  showResult();
+}
+
+function showResult() {
+  result.classList.remove("d-none");
+  main.classList.add("d-none");
+
+}
+
+function hideResult() {
+  result.classList.add("d-none");
+  main.classList.remove("d-none");
+}
 
 /*
   --------------------------------------------------------
   イベントの追加
   --------------------------------------------------------
 */
-
 
 btns.forEach((button, index) => {
   button.addEventListener('click', () => {
