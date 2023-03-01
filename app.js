@@ -1,7 +1,7 @@
 let board = ['', '', '', '', '', '', '', '', ''];
 let player = 'X';
 // 勝利パターン
-let winningPattern = [
+const winningPattern = [
   [0, 1, 2],
   [0, 3, 6],
   [2, 5, 8],
@@ -17,6 +17,13 @@ let count = 0;
 const btns = document.querySelectorAll('.square-btn');
 const turn = document.querySelector('#turn');
 const restart_btn = document.getElementById('restart');
+
+
+/*
+  -------------------------------------------------------
+  Functions
+  -------------------------------------------------------
+*/
 
 // プレイヤーがボタンをクリックした場合呼び出される
 function handleButtonClick(button, index) {
@@ -39,6 +46,7 @@ function handleButtonClick(button, index) {
 function handleRestart() {
   btns.forEach(function (ele) {
     ele.textContent = '';
+    ele.disabled = false;
   });
 
   board = ['', '', '', '', '', '', '', '', ''];
@@ -46,13 +54,11 @@ function handleRestart() {
   turn.textContent = `${player}'s turn`;
 }
 
-btns.forEach((button, index) => {
-  button.addEventListener('click', () => {
-    handleButtonClick(button, index);
+function disableButtons() {
+  btns.forEach(function (ele) {
+    ele.disabled = true;
   });
-});
-
-restart_btn.addEventListener('click', handleRestart);
+}
 
 
 function winCheck(){
@@ -66,6 +72,7 @@ function winCheck(){
     if (ele1 != "" && ele2 != "" && ele3 != ""){
       if (ele1 == ele2 && ele2 == ele3){
         turn.textContent = `${ele1} win!`;
+        disableButtons();
       }
     }
   }
@@ -88,3 +95,18 @@ function drawCheck(){
     }
   }
 };
+
+/*
+  --------------------------------------------------------
+  イベントの追加
+  --------------------------------------------------------
+*/
+
+
+btns.forEach((button, index) => {
+  button.addEventListener('click', () => {
+    handleButtonClick(button, index);
+  });
+});
+
+restart_btn.addEventListener('click', handleRestart);
