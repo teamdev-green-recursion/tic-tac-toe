@@ -1,5 +1,6 @@
 let board = ['', '', '', '', '', '', '', '', ''];
 let player = 'X';
+const cpu = 'O';
 // 勝利パターン
 const winningPattern = [
   [0, 1, 2],
@@ -17,9 +18,8 @@ let count = 0;
 const btns = document.querySelectorAll('.square-btn');
 const turn = document.querySelector('#turn');
 const restart_btn = document.getElementById('restart');
-const main = document.getElementById("main");
+const main = document.getElementById('main');
 const result = document.getElementById('result');
-
 
 /*
   -------------------------------------------------------
@@ -27,7 +27,7 @@ const result = document.getElementById('result');
   -------------------------------------------------------
 */
 
-// プレイヤーがボタンをクリックした場合呼び出される
+// プレイヤーがボタンをクリックした時に呼び出される
 function handleButtonClick(button, index) {
   if (board[index] === '') {
     board[index] = player;
@@ -40,6 +40,20 @@ function handleButtonClick(button, index) {
     // 勝利/引き分け判定
     drawCheck();
     winCheck();
+
+    // プレイヤーとCPUが同じ手を打った場合に、次の手を計算する
+    if (player === cpu) {
+      const availableMoves = [];
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === '') {
+          availableMoves.push(i);
+        }
+      }
+      const randomIndex = Math.floor(Math.random() * availableMoves.length);
+      const cpuMove = availableMoves[randomIndex];
+      const cpuButton = btns[cpuMove];
+      handleButtonClick(cpuButton, cpuMove);
+    }
   }
 }
 
@@ -63,17 +77,12 @@ function disableButtons() {
   });
 }
 
+function winCheck() {
+  for (let i of winningPattern) {
+    let [ele1, ele2, ele3] = [btns[i[0]].innerText, btns[i[1]].innerText, btns[i[2]].innerText];
 
-function winCheck(){
-  for (let i of winningPattern){
-    let [ele1, ele2, ele3] = [
-      btns[i[0]].innerText,
-      btns[i[1]].innerText,
-      btns[i[2]].innerText,
-    ];
-
-    if (ele1 != "" && ele2 != "" && ele3 != ""){
-      if (ele1 == ele2 && ele2 == ele3){
+    if (ele1 != '' && ele2 != '' && ele3 != '') {
+      if (ele1 == ele2 && ele2 == ele3) {
         message = `${ele1} win!`;
         turn.textContent = message;
         insertPage(message);
@@ -81,31 +90,30 @@ function winCheck(){
       }
     }
   }
-};
+}
 
-function drawCheck(){
+function drawCheck() {
   count = 0;
-  for (let i of winningPattern){
-    hashmap = {"X":0, "O":0};
-    for (let j=0; j<3; j++) {
-      if (btns[i[j]].innerText == "X") hashmap["X"] += 1;
-      if (btns[i[j]].innerText == "O") hashmap["O"] += 1;
+  for (let i of winningPattern) {
+    hashmap = { X: 0, O: 0 };
+    for (let j = 0; j < 3; j++) {
+      if (btns[i[j]].innerText == 'X') hashmap['X'] += 1;
+      if (btns[i[j]].innerText == 'O') hashmap['O'] += 1;
     }
 
-    if (hashmap["X"] > 0 && hashmap["O"] > 0){
+    if (hashmap['X'] > 0 && hashmap['O'] > 0) {
       count += 1;
-      if (count == 8){
+      if (count == 8) {
         message = 'Draw!';
         turn.textContent = message;
         insertPage(message);
       }
     }
   }
-};
+}
 
 function insertPage(message) {
-  result.innerHTML = 
-  `
+  result.innerHTML = `
     <h1 class = "title text-center fw-bold mb-4">${message}</h1>
     <div class="d-flex justify-content-center">
         <button id="restart" class="btn btn-success btn-lg text-light" onclick = "handleRestart()">Restart</button>
@@ -116,14 +124,13 @@ function insertPage(message) {
 }
 
 function showResult() {
-  result.classList.remove("d-none");
-  main.classList.add("d-none");
-
+  result.classList.remove('d-none');
+  main.classList.add('d-none');
 }
 
 function hideResult() {
-  result.classList.add("d-none");
-  main.classList.remove("d-none");
+  result.classList.add('d-none');
+  main.classList.remove('d-none');
 }
 
 /*
