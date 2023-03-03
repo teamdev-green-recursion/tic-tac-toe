@@ -18,10 +18,21 @@
   </head>
 
   <body>
-    <div id = "main" class="bg-dark vh-100 d-flex flex-column align-items-center py-5">
-      <h1 class="text-center title fw-bold mb-3">Tic Tac Toe</h1>
 
-      <h3 id="turn" class="text-center title fw-bold my-2">X's turn</h3>
+    <div id = "menu" class = "bg-dark vh-100 d-flex flex-column align-items-center justify-content-center">
+      <h1 class = "monaco-green text-center fw-bold mb-5"> Welcome to Tic Toc Toe!!</h1>
+      <h3 class = "monaco-green text-center">Select play mode</h3>
+
+      <div id = "play-modes" class = "d-flex col-md-5 col-lg-3 justify-content-center my-3">
+        <button id = "solo" class = "mode-btn mx-3 btn-lg monaco-green" onclick = "switchPage(menu, main)">Solo Play</button>
+        <button id = "cpu-play" class = "mode-btn mx-3 btn-lg monaco-green" onclick = "switchPage(menu, main)">CPU play</button>
+      </div>
+    </div>
+
+    <div id = "main" class="bg-dark vh-100 d-flex flex-column align-items-center py-5 d-none">
+      <h1 class="text-center monaco-green fw-bold mb-3">Tic Tac Toe</h1>
+
+      <h3 id="turn" class="text-center monaco-green fw-bold my-2">X's turn</h3>
 
       <div id="buttons" class="col-5 d-flex flex-wrap justify-content-center align-content-around my-4">
         <button class="square-btn"></button>
