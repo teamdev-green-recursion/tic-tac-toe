@@ -14,6 +14,7 @@ const winningPattern = [
 ];
 let hashmap = {};
 let count = 0;
+let isSoloPlay = false;
 
 const config = {
   btns: document.querySelectorAll('.square-btn'),
@@ -22,6 +23,8 @@ const config = {
   menu: document.getElementById('menu'),
   main: document.getElementById('main'),
   result: document.getElementById('result'),
+  solo_btn: document.getElementById('solo'),
+  cpu_play_btn: document.getElementById('cpu-play'),
 };
 
 /*
@@ -29,6 +32,22 @@ const config = {
   Functions
   -------------------------------------------------------
 */
+
+function handleCPUMove() {
+  const availableMoves = [];
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === '') {
+      availableMoves.push(i);
+    }
+  }
+  const randomIndex = Math.floor(Math.random() * availableMoves.length);
+  const cpuMove = availableMoves[randomIndex];
+  const cpuButton = config.btns[cpuMove];
+
+  setTimeout(function () {
+    handleButtonClick(cpuButton, cpuMove);
+  }, 600);
+}
 
 // プレイヤーがボタンをクリックした時に呼び出される
 function handleButtonClick(button, index) {
@@ -44,22 +63,9 @@ function handleButtonClick(button, index) {
     drawCheck();
     winCheck();
 
-    // プレイヤーとCPUが同じ手を打った場合に、次の手を計算する
-    if (player === cpu) {
-      const availableMoves = [];
-      for (let i = 0; i < board.length; i++) {
-        if (board[i] === '') {
-          availableMoves.push(i);
-        }
-      }
-      const randomIndex = Math.floor(Math.random() * availableMoves.length);
-      const cpuMove = availableMoves[randomIndex];
-      const cpuButton = config.btns[cpuMove];
-
-      // CPUの動作を調整 600ミリ秒の遅延
-      setTimeout(function () {
-        handleButtonClick(cpuButton, cpuMove);
-      }, 600);
+    // CPUのターン
+    if (player === cpu && !isSoloPlay) {
+      handleCPUMove();
     }
   }
 }
@@ -81,6 +87,7 @@ function handleRestart() {
 function disableButtons() {
   config.btns.forEach(function (ele) {
     ele.disabled = true;
+    return;
   });
 }
 
@@ -96,6 +103,7 @@ function winCheck() {
         setTimeout(function () {
           insertPage(message);
         }, 600);
+        return;
       }
     }
   }
@@ -131,13 +139,11 @@ function insertPage(message) {
   `;
 
   switchPage(config.main, config.result);
-
-  
 }
 
 function switchPage(hide, show) {
-  hide.classList.add("d-none");
-  show.classList.remove("d-none");
+  hide.classList.add('d-none');
+  show.classList.remove('d-none');
 }
 
 /*
@@ -146,10 +152,22 @@ function switchPage(hide, show) {
   --------------------------------------------------------
 */
 
-config.btns.forEach((button, index) => {
-  button.addEventListener('click', () => {
+config.btns.forEach(function (button, index) {
+  button.addEventListener('click', function () {
     handleButtonClick(button, index);
   });
 });
 
 config.restart.addEventListener('click', handleRestart);
+
+// Solo Playボタンにイベントリスナーを追加
+config.solo_btn.addEventListener('click', function () {
+  isSoloPlay = true;
+  switchPage(config.menu, config.main);
+});
+
+// CPU Playボタンにイベントリスナーを追加
+config.cpu_play_btn.addEventListener('click', function () {
+  isSoloPlay = false;
+  switchPage(config.menu, config.main);
+});
