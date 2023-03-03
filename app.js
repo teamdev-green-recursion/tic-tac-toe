@@ -153,3 +153,5 @@ config.btns.forEach((button, index) => {
 });
 
 config.restart.addEventListener('click', handleRestart);
+
+//アニメーション
