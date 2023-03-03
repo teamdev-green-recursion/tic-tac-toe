@@ -15,11 +15,14 @@ const winningPattern = [
 let hashmap = {};
 let count = 0;
 
-const btns = document.querySelectorAll('.square-btn');
-const turn = document.querySelector('#turn');
-const restart_btn = document.getElementById('restart');
-const main = document.getElementById('main');
-const result = document.getElementById('result');
+const config = {
+  btns: document.querySelectorAll('.square-btn'),
+  turn: document.querySelector('#turn'),
+  restart: document.getElementById('restart'),
+  menu: document.getElementById('menu'),
+  main: document.getElementById('main'),
+  result: document.getElementById('result'),
+};
 
 /*
   -------------------------------------------------------
@@ -35,7 +38,7 @@ function handleButtonClick(button, index) {
     player = player === 'X' ? 'O' : 'X';
 
     // プレイヤーのターン表示切り替え
-    turn.textContent = `${player}'s turn`;
+    config.turn.textContent = `${player}'s turn`;
 
     // 勝利/引き分け判定
     drawCheck();
@@ -51,7 +54,7 @@ function handleButtonClick(button, index) {
       }
       const randomIndex = Math.floor(Math.random() * availableMoves.length);
       const cpuMove = availableMoves[randomIndex];
-      const cpuButton = btns[cpuMove];
+      const cpuButton = config.btns[cpuMove];
 
       // CPUの動作を調整 600ミリ秒の遅延
       setTimeout(function () {
@@ -64,33 +67,35 @@ function handleButtonClick(button, index) {
 // プレイヤーがRestartボタンを押した時に呼び出される
 // 全てのボタンのテキスト、ボードを表す配列 board、ターンを示すplayerを初期化
 function handleRestart() {
-  btns.forEach(function (ele) {
+  config.btns.forEach(function (ele) {
     ele.textContent = '';
     ele.disabled = false;
   });
 
   board = ['', '', '', '', '', '', '', '', ''];
   player = 'X';
-  turn.textContent = `${player}'s turn`;
-  hideResult();
+  config.turn.textContent = `${player}'s turn`;
+  switchPage(config.result, config.main);
 }
 
 function disableButtons() {
-  btns.forEach(function (ele) {
+  config.btns.forEach(function (ele) {
     ele.disabled = true;
   });
 }
 
 function winCheck() {
   for (let i of winningPattern) {
-    let [ele1, ele2, ele3] = [btns[i[0]].innerText, btns[i[1]].innerText, btns[i[2]].innerText];
+    let [ele1, ele2, ele3] = [config.btns[i[0]].innerText, config.btns[i[1]].innerText, config.btns[i[2]].innerText];
 
     if (ele1 != '' && ele2 != '' && ele3 != '') {
       if (ele1 == ele2 && ele2 == ele3) {
         message = `${ele1} win!`;
-        turn.textContent = message;
-        insertPage(message);
         disableButtons();
+
+        setTimeout(function () {
+          insertPage(message);
+        }, 600);
       }
     }
   }
@@ -101,40 +106,38 @@ function drawCheck() {
   for (let i of winningPattern) {
     hashmap = { X: 0, O: 0 };
     for (let j = 0; j < 3; j++) {
-      if (btns[i[j]].innerText == 'X') hashmap['X'] += 1;
-      if (btns[i[j]].innerText == 'O') hashmap['O'] += 1;
+      if (config.btns[i[j]].innerText == 'X') hashmap['X'] += 1;
+      if (config.btns[i[j]].innerText == 'O') hashmap['O'] += 1;
     }
 
     if (hashmap['X'] > 0 && hashmap['O'] > 0) {
       count += 1;
       if (count == 8) {
         message = 'Draw!';
-        turn.textContent = message;
-        insertPage(message);
+        setTimeout(function () {
+          insertPage(message);
+        }, 600);
       }
     }
   }
 }
 
 function insertPage(message) {
-  result.innerHTML = `
-    <h1 class = "title text-center fw-bold mb-4">${message}</h1>
+  config.result.innerHTML = `
+    <h1 class = "monaco-green text-center fw-bold mb-4">${message}</h1>
     <div class="d-flex justify-content-center">
         <button id="restart" class="btn btn-success btn-lg text-light" onclick = "handleRestart()">Restart</button>
     </div>
   `;
 
-  showResult();
+  switchPage(config.main, config.result);
+
+  
 }
 
-function showResult() {
-  result.classList.remove('d-none');
-  main.classList.add('d-none');
-}
-
-function hideResult() {
-  result.classList.add('d-none');
-  main.classList.remove('d-none');
+function switchPage(hide, show) {
+  hide.classList.add("d-none");
+  show.classList.remove("d-none");
 }
 
 /*
@@ -143,10 +146,10 @@ function hideResult() {
   --------------------------------------------------------
 */
 
-btns.forEach((button, index) => {
+config.btns.forEach((button, index) => {
   button.addEventListener('click', () => {
     handleButtonClick(button, index);
   });
 });
 
-restart_btn.addEventListener('click', handleRestart);
+config.restart.addEventListener('click', handleRestart);

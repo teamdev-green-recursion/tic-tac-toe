@@ -1,4 +1,4 @@
-.title {
+.monaco-green {
   color: #2bf496;
   font-family: monaco, Consolas, Lucida Console, monospace;
 }
@@ -12,4 +12,10 @@
   margin: 20px;
   color: white;
   font-size: 75px;
+}
+
+.mode-btn {
+  border-radius: 5px;
+  background: transparent;
+  border-color: #2bf496;
 }
