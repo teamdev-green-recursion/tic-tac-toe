@@ -52,7 +52,11 @@ function handleButtonClick(button, index) {
       const randomIndex = Math.floor(Math.random() * availableMoves.length);
       const cpuMove = availableMoves[randomIndex];
       const cpuButton = btns[cpuMove];
-      handleButtonClick(cpuButton, cpuMove);
+
+      // CPUの動作を調整 600ミリ秒の遅延
+      setTimeout(function () {
+        handleButtonClick(cpuButton, cpuMove);
+      }, 600);
     }
   }
 }
