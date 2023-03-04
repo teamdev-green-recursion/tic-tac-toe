@@ -20,6 +20,7 @@ const config = {
   btns: document.querySelectorAll('.square-btn'),
   turn: document.querySelector('#turn'),
   restart: document.getElementById('restart'),
+  goMenu: document.getElementById('goMenu'),
   menu: document.getElementById('menu'),
   main: document.getElementById('main'),
   result: document.getElementById('result'),
@@ -85,7 +86,7 @@ function handleButtonClick(button, index) {
 
 // プレイヤーがRestartボタンを押した時に呼び出される
 // 全てのボタンのテキスト、ボードを表す配列 board、ターンを示すplayerを初期化
-function handleRestart() {
+function resetGame() {
   config.btns.forEach(function (ele) {
     ele.textContent = '';
     ele.disabled = false;
@@ -147,11 +148,22 @@ function insertPage(message) {
   config.result.innerHTML = `
     <h1 class = "monaco-green text-center fw-bold mb-4">${message}</h1>
     <div class="d-flex justify-content-center">
-        <button id="restart" class="btn btn-success btn-lg text-light" onclick = "handleRestart()">Restart</button>
+        <button class="btn btn-success btn-lg text-light mx-3" onclick = "resetGame()">Restart</button>
+        <button class = "btn btn-success btn-lg text-light mx-3" onclick = "goMenuPage(config.result)">Menu Page</button>
     </div>
   `;
 
   switchPage(config.main, config.result);
+}
+
+function restartGame() {
+  resetGame();
+  switchPage(config.result, config.main);
+}
+
+function goMenuPage(hide) {
+  resetGame();
+  switchPage(hide, config.menu);
 }
 
 function switchPage(hide, show) {
@@ -181,7 +193,10 @@ config.btns.forEach(function (button, index) {
   });
 });
 
-config.restart.addEventListener('click', handleRestart);
+config.restart.addEventListener('click', resetGame);
+config.goMenu.addEventListener('click', function() {
+  goMenuPage(config.main);
+});
 
 // Solo Playボタンにイベントリスナーを追加
 config.solo_btn.addEventListener('click', function () {
