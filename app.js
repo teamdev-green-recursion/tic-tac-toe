@@ -54,6 +54,7 @@ function handleButtonClick(button, index) {
   if (board[index] === '') {
     board[index] = player;
     button.textContent = player;
+    button.style.color = 'white';
     player = player === 'X' ? 'O' : 'X';
 
     // プレイヤーのターン表示切り替え
@@ -62,6 +63,18 @@ function handleButtonClick(button, index) {
     // 勝利/引き分け判定
     drawCheck();
     winCheck();
+
+    button.removeEventListener('mouseover', function() {
+      button.textContent = player;
+      button.style.color = 'gray';
+    });
+
+    button.removeEventListener('mouseleave', function() {
+      button.textContent = '';
+      button.style.color = 'white';
+    });
+
+    button.disabled = true;
 
     // CPUのターン
     if (player === cpu && !isSoloPlay) {
@@ -97,7 +110,7 @@ function winCheck() {
 
     if (ele1 != '' && ele2 != '' && ele3 != '') {
       if (ele1 == ele2 && ele2 == ele3) {
-        message = `${ele1} win!`;
+        message = `🎉🎉 ${ele1} wins! 🎉🎉`;
         disableButtons();
 
         setTimeout(function () {
@@ -155,6 +168,16 @@ function switchPage(hide, show) {
 config.btns.forEach(function (button, index) {
   button.addEventListener('click', function () {
     handleButtonClick(button, index);
+  });
+
+  button.addEventListener('mouseover', function() {
+    button.textContent = player;
+    button.style.color = 'gray';
+  });
+
+  button.addEventListener('mouseleave', function() {
+    button.textContent = '';
+    button.style.color = 'white';
   });
 });
 
