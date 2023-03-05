@@ -34,22 +34,6 @@ const config = {
   -------------------------------------------------------
 */
 
-function handleCPUMove() {
-  const availableMoves = [];
-  for (let i = 0; i < board.length; i++) {
-    if (board[i] === '') {
-      availableMoves.push(i);
-    }
-  }
-  const randomIndex = Math.floor(Math.random() * availableMoves.length);
-  const cpuMove = availableMoves[randomIndex];
-  const cpuButton = config.btns[cpuMove];
-
-  setTimeout(function () {
-    handleButtonClick(cpuButton, cpuMove);
-  }, 600);
-}
-
 // プレイヤーがボタンをクリックした時に呼び出される
 function handleButtonClick(button, index) {
   if (board[index] === '') {
@@ -84,6 +68,31 @@ function handleButtonClick(button, index) {
   }
 }
 
+// player と cpu の値が等しく、かつ isSoloPlay が false の場合に呼び出される
+function handleCPUMove() {
+  // 最初に、空いているマスを見つけるために、 availableMoves という空の配列を作成
+  const availableMoves = [];
+
+  // for ループを使って board の各要素をチェック
+  // もし board[i] が空の文字列 '' であれば、インデックス i を availableMoves 配列に追加
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === '') {
+      availableMoves.push(i);
+    }
+  }
+
+  // availableMoves 配列の中からランダムなインデックスを選択 CPUがランダムな場所にマークを置く
+  const randomIndex = Math.floor(Math.random() * availableMoves.length);
+
+  // 選択された場所 cpuMove の cpuButton というボタン要素を取得
+  const cpuMove = availableMoves[randomIndex];
+  const cpuButton = config.btns[cpuMove];
+
+  setTimeout(function () {
+    handleButtonClick(cpuButton, cpuMove);
+  }, 600);
+}
+
 // プレイヤーがRestartボタンを押した時に呼び出される
 // 全てのボタンのテキスト、ボードを表す配列 board、ターンを示すplayerを初期化
 function resetGame() {
@@ -102,7 +111,6 @@ function disableButtons() {
   config.btns.forEach(function (ele) {
     ele.disabled = true;
   });
-  // return;
 }
 
 function winCheck() {
@@ -198,13 +206,11 @@ config.goMenu.addEventListener('click', function () {
   goMenuPage(config.main);
 });
 
-// Solo Playボタンにイベントリスナーを追加
 config.solo_play_btn.addEventListener('click', function () {
   isSoloPlay = true;
   switchPage(config.menu, config.main);
 });
 
-// CPU Playボタンにイベントリスナーを追加
 config.cpu_play_btn.addEventListener('click', function () {
   isSoloPlay = false;
   switchPage(config.menu, config.main);
