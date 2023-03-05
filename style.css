@@ -10,7 +10,6 @@
   background: transparent;
   border-color: #2bf496;
   margin: 20px;
-  color: white;
   font-size: 75px;
   vertical-align: top;
 }
@@ -19,4 +18,8 @@
   border-radius: 5px;
   background: transparent;
   border-color: #2bf496;
+}
+
+.result-text {
+  font-size: 80px;
 }

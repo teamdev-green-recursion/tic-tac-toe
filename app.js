@@ -24,7 +24,7 @@ const config = {
   menu: document.getElementById('menu'),
   main: document.getElementById('main'),
   result: document.getElementById('result'),
-  solo_btn: document.getElementById('solo'),
+  solo_play_btn: document.getElementById('solo'),
   cpu_play_btn: document.getElementById('cpu-play'),
 };
 
@@ -65,22 +65,22 @@ function handleButtonClick(button, index) {
     drawCheck();
     winCheck();
 
-    button.removeEventListener('mouseover', function() {
+    button.removeEventListener('mouseover', function () {
       button.textContent = player;
       button.style.color = 'gray';
     });
 
-    button.removeEventListener('mouseleave', function() {
+    button.removeEventListener('mouseleave', function () {
       button.textContent = '';
       button.style.color = 'white';
     });
-
-    button.disabled = true;
 
     // CPUのターン
     if (player === cpu && !isSoloPlay) {
       handleCPUMove();
     }
+
+    button.disabled = true;
   }
 }
 
@@ -101,8 +101,8 @@ function resetGame() {
 function disableButtons() {
   config.btns.forEach(function (ele) {
     ele.disabled = true;
-    return;
   });
+  // return;
 }
 
 function winCheck() {
@@ -146,10 +146,10 @@ function drawCheck() {
 
 function insertPage(message) {
   config.result.innerHTML = `
-    <h1 class = "monaco-green text-center fw-bold mb-4">${message}</h1>
-    <div class="d-flex justify-content-center">
-        <button class="btn btn-success btn-lg text-light mx-3" onclick = "resetGame()">Restart</button>
-        <button class = "btn btn-success btn-lg text-light mx-3" onclick = "goMenuPage(config.result)">Menu Page</button>
+    <h1 class = "monaco-green result-text text-center fw-bold my-4">${message}</h1>
+    <div class="d-flex justify-content-center my-2">
+        <button class="mode-btn mx-3 btn-lg monaco-green" onclick = "resetGame()">Restart</button>
+        <button class = "mode-btn mx-3 btn-lg monaco-green" onclick = "goMenuPage(config.result)">Menu Page</button>
     </div>
   `;
 
@@ -182,24 +182,24 @@ config.btns.forEach(function (button, index) {
     handleButtonClick(button, index);
   });
 
-  button.addEventListener('mouseover', function() {
+  button.addEventListener('mouseover', function () {
     button.textContent = player;
     button.style.color = 'gray';
   });
 
-  button.addEventListener('mouseleave', function() {
+  button.addEventListener('mouseleave', function () {
     button.textContent = '';
     button.style.color = 'white';
   });
 });
 
 config.restart.addEventListener('click', resetGame);
-config.goMenu.addEventListener('click', function() {
+config.goMenu.addEventListener('click', function () {
   goMenuPage(config.main);
 });
 
 // Solo Playボタンにイベントリスナーを追加
-config.solo_btn.addEventListener('click', function () {
+config.solo_play_btn.addEventListener('click', function () {
   isSoloPlay = true;
   switchPage(config.menu, config.main);
 });
